@@ -54,7 +54,7 @@ def validate_data(values):
     return True
 
 
-#def update_sales_worksheet(data):
+#def update_sales_worksheet(data): refactored below
     """update sales worksheet, 
     add new row with the list data provded
     """
@@ -88,7 +88,7 @@ def calculate_surplus_data(sales_row):
     return surplus_data
           
 
-#def update_surplus_worksheet(info):
+#def update_surplus_worksheet(info): refactored below
     """update surplus worksheet, 
     add new row with the list data provded
     """
@@ -109,6 +109,22 @@ def update_worksheet(data, worksheet):
     worksheet_to_update.append_row(data)
     print(f"{worksheet} worksheet updated successfully\n")
 
+def get_last_5_entries_sales():
+    """
+    Collects columns of data from sales worksheet, collecting
+    the last 5 entries for each sandwich and returns the data
+    as a list of lists.
+    """
+
+    sales = SHEET.worksheet('sales')
+    
+    columns =[]
+    for ind in range(1, 6):
+        column = sales.col_values(ind) #col_values is a built in method from gspread.
+    #this returns the column data, accessing the 3rd column in the spreadsheet
+    #counting the column index starts from 1 not 0.
+        columns.append(column[-5:])
+    return columns
 
 def main():
     """moved all function calls into it's own function
@@ -121,4 +137,6 @@ def main():
     update_worksheet(new_surplus_data, 'surplus')
 
 print('Welcome to Love Sandwiches Data\n')
-main()
+#main()
+sales_columns = get_last_5_entries_sales()
+print(sales_columns)
