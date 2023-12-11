@@ -81,14 +81,24 @@ def calculate_surplus_data(sales_row):
     stock_row = stock[-1] # requests the last line in the list - slice method
     
     surplus_data =[]
-    for stock, sales in zip(stock_row, sales_row):
-        surplus = int(stock) - sales
-        surplus_data.append(surplus)
+    for stock, sales in zip(stock_row, sales_row): # iterating over two lists at the same time
+        surplus = int(stock) - sales #converting stock into int 
+        surplus_data.append(surplus) #adding to empty list above
 
     return surplus_data
           
 
+def update_surplus_worksheet(info):
+    """update sales worksheet, 
+    add new row with the list data provded
+    """
+    print("updating sales worksheet...\n")
 
+    surplus_worksheet = SHEET.worksheet("surplus") 
+    #.worksheet() is a built in method to access the work sheets 
+    surplus_worksheet.append_row(info)
+    #.append_row() is a built in method to add the data to a new row inthe worksheet.
+    print("Surplus worksheet updated successfully.\n")
 
 
 def main():
@@ -99,7 +109,7 @@ def main():
     sales_data = [int(num) for num in data] # convert returned data into int
     update_sales_worksheet(sales_data) #add int data to worksheet
     new_surplus_data = calculate_surplus_data(sales_data) 
-    print(new_surplus_data)
+    update_surplus_worksheet(new_surplus_data)
 
 print('Welcome to Love Sandwiches Data\n')
 main()
